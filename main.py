@@ -39,6 +39,8 @@ def add_items(itemList: ItemList):
         elif item.item_category.lower() == "imported":
             # 18% tax
             tax_rate == 0.18
+        elif item.item_category.lower() == "book":
+            tax_rate = 0
         else:
             tax_rate = "category does not exist"
 
