@@ -20,35 +20,46 @@ class ItemList(BaseModel):
 
 @app.post("/")
 def add_items(itemList: ItemList):
-    # print(type(itemList.itemsList))
-    print(type(itemList.itemsList))
-    print(itemList.itemsList)
     purchased_items = []
     for item in itemList.itemsList:
-        if item.item_category == "medicine" or item.item_category == "food":
+        if (item.item_category.lower() == "medicine" or
+                item.item_category.lower() == "food"):
             tax_rate = 0.05
-        elif item.item_category == "clothes" and item.item_price < 1000:
+        elif (item.item_category.lower() == "clothes" and
+                item.item_price < 1000):
             tax_rate = 0.05
-        elif item.item_category == "clothes" and item.item_price > 1000:
+        elif (item.item_category.lower() == "clothes" and
+                item.item_price > 1000):
             # 12% tax
             tax_rate = 0.12
-        elif item.item_category == "cds" or item.item_category == "dvds":
+        elif (item.item_category.lower() == "cds" or
+                item.item_category.lower() == "dvds"):
+            # 3% tax
             tax_rate = 0.03
-        elif item.item_category == "imported":
+        elif item.item_category.lower() == "imported":
+            # 18% tax
             tax_rate == 0.18
         else:
             tax_rate = "category does not exist"
 
-        tax_price = item.price * tax_rate * item.quantity
-        total_price = item.price * item.quantity + tax_price
-        purchased_items.append({
-            "item": item.item,
-            "quantity": item.quantity,
-            "tax_price": tax_price,
-            "total_price": total_price
-        })
+        """
+            If a given category is not specified,
+            then skip, that particular item
+            instead of exiting the entire payload
+        """
+        if isinstance(tax_rate, str):
+            pass
+        else:
+            tax_price = item.price * tax_rate * item.quantity
+            total_price = item.price * item.quantity + tax_price
+            purchased_items.append({
+                "item": item.item,
+                "quantity": item.quantity,
+                "tax_price": tax_price,
+                "total_price": total_price
+            })
 
-    purchase_time = datetime.now().strftime("%d %B %Y %H:%M")
+    purchase_time = datetime.now().strftime("%d %B %Y %H:%M:%S")
     # sort the purchased items by their name
     purchased_items = sorted(
         purchased_items, key=lambda item_name: item_name["item"]
