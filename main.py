@@ -48,7 +48,7 @@ def add_items(itemList: ItemList):
             "total_price": total_price
         })
 
-    purchase_time = datetime.now()
+    purchase_time = datetime.now().strftime("%d %B %Y %H:%M")
     # sort the purchased items by their name
     purchased_items = sorted(
         purchased_items, key=lambda item_name: item_name["item"]
