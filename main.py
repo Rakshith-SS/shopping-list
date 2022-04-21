@@ -47,8 +47,19 @@ def add_items(itemList: ItemList):
             "tax_price": tax_price,
             "total_price": total_price
         })
+
     purchase_time = datetime.now()
+    # sort the purchased items by their name
+    purchased_items = sorted(
+        purchased_items, key=lambda item_name: item_name["item"]
+    )
+
+    grand_price = 0
+    for item in purchased_items:
+        grand_price += item["total_price"]
+
     return {
         "purchased_items": purchased_items,
-        "purchased_time": purchase_time
+        "purchased_time": purchase_time,
+        "grand_price": grand_price
     }
