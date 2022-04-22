@@ -21,19 +21,21 @@ class ItemList(BaseModel):
 @app.post("/")
 def add_items(itemList: ItemList):
     purchased_items = []
+    message = "Billed Successfully"
     for item in itemList.itemsList:
         if (item.item_category.lower() == "medicine" or
                 item.item_category.lower() == "food"):
             tax_rate = 0.05
         elif (item.item_category.lower() == "clothes" and
-                item.item_price < 1000):
+                item.price < 1000):
             tax_rate = 0.05
         elif (item.item_category.lower() == "clothes" and
-                item.item_price > 1000):
+                item.price > 1000):
             # 12% tax
             tax_rate = 0.12
         elif (item.item_category.lower() == "cds" or
-                item.item_category.lower() == "dvds"):
+                item.item_category.lower() == "dvds" or
+                item.item_category.lower() == "music"):
             # 3% tax
             tax_rate = 0.03
         elif item.item_category.lower() == "imported":
@@ -71,7 +73,15 @@ def add_items(itemList: ItemList):
     for item in purchased_items:
         grand_price += item["total_price"]
 
+    """
+        5% discount on purchases exceeding 2000
+    """
+    if grand_price > 2000:
+        message = "Billed Successfully with a 5% discount"
+        grand_price = grand_price + grand_price * 0.05
+
     return {
+        "message": message,
         "purchased_items": purchased_items,
         "purchased_time": purchase_time,
         "grand_price": grand_price
