@@ -38,6 +38,7 @@ class ItemList(BaseModel):
 def add_items(itemList: ItemList):
     purchased_items = []
     message = "Billed Successfully"
+    invalid_categories = []
     for item in itemList.itemsList:
         if (item.item_category.lower() == "medicine" or
                 item.item_category.lower() == "food"):
@@ -68,7 +69,7 @@ def add_items(itemList: ItemList):
             instead of exiting the entire payload
         """
         if isinstance(tax_rate, str):
-            pass
+            invalid_categories.append(item.item_category)
         else:
             tax_price = item.price * tax_rate * item.quantity
             total_price = item.price * item.quantity + tax_price
@@ -96,9 +97,15 @@ def add_items(itemList: ItemList):
         message = "Billed Successfully with a 5% discount"
         grand_price = grand_price + grand_price * 0.05
 
-    return {
-        "message": message,
-        "purchased_items": purchased_items,
-        "purchased_time": purchase_time,
-        "grand_price": grand_price
-    }
+    if invalid_categories:
+        return {
+            "message": "Please include a valid category to generate a bill",
+            "valid_categories": "Book, Imported, Music, Clothes, Food, Medicine"
+        }
+    else:
+        return {
+            "message": message,
+            "purchased_items": purchased_items,
+            "purchased_time": purchase_time,
+            "grand_price": grand_price
+        }
