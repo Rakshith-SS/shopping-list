@@ -11,7 +11,8 @@ origins = [
     "http://localhost.tiangolo.com",
     "https://localhost.tiangolo.com",
     "http://localhost",
-    "http://localhost:8080"
+    "http://localhost:8080",
+    "https://stormy-sea-73805.herokuapp.com"
 ]
 
 app.add_middleware(
@@ -19,7 +20,7 @@ app.add_middleware(
     allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
-    allow_headers=["*"],
+    allow_headers=["Access-Control-Allow-Origin"],
 )
 
 
