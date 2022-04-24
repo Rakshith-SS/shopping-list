@@ -52,5 +52,5 @@ Then run the uvicorn server
 uvicorn main:app --reload
 ```
 
-Then go to this link [localhost:8000/docs](http://127.0.0.1:8000/docs) in the browser to make requests and get responses.
+Then go to this link [localhost:8000/docs](http://127.0.0.1:8000/docs#/default/add_items__post) in the browser to make requests and get responses.
 
