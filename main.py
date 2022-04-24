@@ -3,7 +3,11 @@ from typing import List, Optional
 from fastapi import FastAPI
 from pydantic import BaseModel
 from datetime import datetime
+import pytz
 
+
+# Indian Timezone, to generate bill in Indian Timezone rather than UTC
+IST = pytz.timezone('Asia/Kolkata')
 app = FastAPI()
 
 
@@ -64,7 +68,7 @@ def add_items(itemList: ItemList):
                 "total_price": total_price
             })
 
-    purchase_time = datetime.now().strftime("%d %B %Y %H:%M:%S")
+    purchase_time = datetime.now(IST).strftime("%d %B %Y %H:%M:%S")
     # sort the purchased items by their name
     purchased_items = sorted(
         purchased_items, key=lambda item_name: item_name["item"]
