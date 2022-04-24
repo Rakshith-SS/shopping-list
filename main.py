@@ -57,7 +57,7 @@ def add_items(itemList: ItemList):
             instead of exiting the entire payload
         """
         if isinstance(tax_rate, str):
-            invalid_categories.append(item.itemCategory)
+            invalid_categories.append(item.item_category)
         else:
             tax_price = item.price * tax_rate * item.quantity
             total_price = item.price * item.quantity + tax_price
