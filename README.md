@@ -5,10 +5,6 @@
 A RESTful api written using FASTApi, that generates a bill for a given list of items.
 
 
-## Live instance
-
-Check out the live instance on [heroku](https://lit-hamlet-51731.herokuapp.com/docs#/default/add_items__post)
-
 ## Usage Instructions
 
 + Click on Try it out
